@@ -1,0 +1,41 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - master
+      - release/*
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build-deploy:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+
+      - name: Fontend—Install, lint and build
+        run: |
+          npm install
+          npm run lint
+          npm run build
+        working-directory: frontend
+
+      - name: Functions—install, lint and build
+        run: |
+          npm install
+          npm run lint
+          npm run build
+        working-directory: functions
+
+      - name: Replace firebase.json with CI version
+        run: mv firebase.ci.json firebase.json
+
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting,functions
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
