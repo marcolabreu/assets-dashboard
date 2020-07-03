@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "version": "0.1.0",
+  "dependencies": {
+    "@types/node": "^14.0.14",
+    "@types/papaparse": "^5.0.4",
+    "papaparse": "^5.2.0",
+    "typescript": "^3.9.6"
+  },
+  "scripts": {
+    "build": "tsc",
+    "db": "tsc && node lib/parse_csv.js data_db.csv",
+    "sample": "tsc && node lib/parse_csv.js data_sample.csv"
+  }
+}
