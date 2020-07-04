@@ -1,8 +1,15 @@
-import * as functions from 'firebase-functions';
+import { database, pubsub } from "firebase-functions";
 
-// // Start writing Firebase Functions
-// // https://firebase.google.com/docs/functions/typescript
-//
-export const helloWorld = functions.https.onRequest((request, response) => {
- response.send("Hello from Firebase!");
-});
+export const updateTotalsOnWrite = database
+  .ref("/reports_by_date")
+  .onWrite((change, context) => {
+    if (context.authType === "ADMIN" || context.authType === "USER") {
+      console.info(change.after.val(), "written by", context.authType);
+    }
+  });
+
+export const updateTotalsOnSchedule = pubsub
+  .schedule("every day at 5:30 AM")
+  .onRun((context) => {
+    console.info("running on context ", context.authType);
+  });

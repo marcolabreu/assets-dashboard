@@ -91,10 +91,13 @@ module.exports = {
     "no-var": "error",
 
     // Expressions must always return a value. Avoids common errors like const myValue = functionReturningVoid();
-    "no-void": "error",
+    "no-void": "off",
 
     // Prefer const for values that will not change. This better documents code.
     "prefer-const": "warn",
+
+    // We are already using TypeScript
+    "react/prop-types": "off",
   },
   settings: {
     "import/resolver": {

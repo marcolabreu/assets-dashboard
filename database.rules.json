@@ -1,23 +1,19 @@
 {
   "rules": {
-    ".read": "auth != null",
-    ".write": "auth != null",
+    ".read": "true",
+    ".write": "true",
     "funds": {
       "$fund_id": {
         ".indexOn": ".value",
-        ".validate": "newData.isString() && newData.hasChildren(['subfunds'])",
         "subfunds": {
-          ".validate": "newData.isString() && newData.hasChildren(['$subfund_id'])",
           "$subfund_id": {
             ".indexOn": ".value",
-            ".validate": "newData.isString() && newData.hasChildren(['share_classes'])",
             "share_classes": {
-              ".validate": "newData.isString() && newData.hasChildren(['$share_class_id'])",
               "$share_class_id": {
                 ".indexOn": [".value", "uid"],
-                ".validate": "newData.isString() && newData.hasChildren(['uid'])",
+                ".validate": "newData.hasChildren(['uid'])",
                 "uid": {
-                  ".validate": "newData.isString() && newData.val().length === 12"
+                  ".validate": "newData.isString() && data.exists()"
                 }
               }
             }
@@ -28,10 +24,8 @@
     "reports_by_date": {
       "$date": {
         ".indexOn": ".value",
-        ".validate": "newData.isString() && newData.val().length === 6 && newData.hasChildren(['$uid'])",
         "$uid": {
           ".indexOn": ".value",
-          ".validate": "newData.isString() && newData.val().length === 12 && newData.hasChildren(['nb_alerts', 'report_status'])",
           "nb_alerts": {
             ".validate": "newData.isNumber()"
           },
@@ -44,10 +38,8 @@
     "reports_by_uid": {
       "$uid": {
         ".indexOn": ".value",
-        ".validate": "newData.isString() && newData.val().length === 12 && newData.hasChildren(['$date'])",
         "$date": {
           ".indexOn": ".value",
-          ".validate": "newData.isString() && newData.val().length === 6 && newData.hasChildren(['nb_alerts', 'report_status'])",
           "nb_alerts": {
             ".validate": "newData.isNumber()"
           },
