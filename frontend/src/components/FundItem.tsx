@@ -19,7 +19,7 @@ export const FundItem: React.FC<{
 }> = function ({ fund_id, name, subfunds }) {
   const [open, setOpen] = useState(false);
 
-  console.log(subfunds);
+  // console.log(subfunds);
   const handleClick = () => {
     setOpen(!open);
   };

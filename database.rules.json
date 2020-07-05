@@ -1,53 +1,6 @@
 {
-  "rules": {
-    ".read": "true",
-    ".write": "true",
-    "funds": {
-      "$fund_id": {
-        ".indexOn": ".value",
-        "subfunds": {
-          "$subfund_id": {
-            ".indexOn": ".value",
-            "share_classes": {
-              "$share_class_id": {
-                ".indexOn": [".value", "uid"],
-                ".validate": "newData.hasChildren(['uid'])",
-                "uid": {
-                  ".validate": "newData.isString() && data.exists()"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "reports_by_date": {
-      "$date": {
-        ".indexOn": ".value",
-        "$uid": {
-          ".indexOn": ".value",
-          "nb_alerts": {
-            ".validate": "newData.isNumber()"
-          },
-          "report_status": {
-            ".validate": "newData.isBoolean()"
-          }
-        }
-      }
-    },
-    "reports_by_uid": {
-      "$uid": {
-        ".indexOn": ".value",
-        "$date": {
-          ".indexOn": ".value",
-          "nb_alerts": {
-            ".validate": "newData.isNumber()"
-          },
-          "report_status": {
-            ".validate": "newData.isBoolean()"
-          }
-        }
-      }
-    }
-  }
+   "rules": {
+      ".read": "true",
+      ".write": "true"
+   }
 }
