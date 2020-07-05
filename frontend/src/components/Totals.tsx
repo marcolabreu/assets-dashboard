@@ -1,9 +1,8 @@
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useEffect, useState } from "react";
-import { Cell, Label, Pie, PieChart } from "recharts";
+import { Cell, Label, Pie, PieChart, ResponsiveContainer } from "recharts";
 
 import { db, IReportsByDate } from "../services/firebase";
-import { Loading } from "./Loading";
 import { localDateFromKey } from "../helpers/localDateFromKey";
 
 const styles = makeStyles({
@@ -11,6 +10,7 @@ const styles = makeStyles({
       display: "flex",
       flexDirection: "row",
       justifyItems: "center",
+      width: "30%",
    },
 });
 
@@ -82,29 +82,31 @@ export const Totals: React.FC = function () {
 
    return (
       <div className={classes.container}>
-         <PieChart width={140} height={140}>
-            <Pie
-               data={pieData}
-               dataKey="value"
-               animationEasing="ease-in-out"
-               fill={pieColors[0]}
-               innerRadius={40}
-               paddingAngle={1}
-               startAngle={90}
-               endAngle={-360}
-            >
-               {pieData.map((entry, index) => (
-                  <Cell
-                     key={`cell-${index}`}
-                     fill={pieColors[index % pieColors.length]}
+         <ResponsiveContainer width="95%" height={200}>
+            <PieChart>
+               <Pie
+                  data={pieData}
+                  dataKey="value"
+                  animationEasing="ease-in-out"
+                  fill={pieColors[0]}
+                  innerRadius="60%"
+                  paddingAngle={1}
+                  startAngle={90}
+                  endAngle={-360}
+               >
+                  {pieData.map((entry, index) => (
+                     <Cell
+                        key={`cell-${index}`}
+                        fill={pieColors[index % pieColors.length]}
+                     />
+                  ))}
+                  <Label
+                     value={`${Math.round(completed * 100)}%`}
+                     position="center"
                   />
-               ))}
-               <Label
-                  value={`${Math.round(completed * 100)}%`}
-                  position="center"
-               />
-            </Pie>
-         </PieChart>
+               </Pie>
+            </PieChart>
+         </ResponsiveContainer>
          <div>
             <h2>{date}</h2>
             <p>{alerts.toLocaleString()}</p>

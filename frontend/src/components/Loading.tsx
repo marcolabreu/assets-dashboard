@@ -1,6 +1,5 @@
 import React from "react";
-import { CircularProgress, Container } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { CircularProgress, Container, makeStyles } from "@material-ui/core";
 
 const styles = makeStyles({
    container: {
