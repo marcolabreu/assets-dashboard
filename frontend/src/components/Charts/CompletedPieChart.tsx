@@ -5,6 +5,7 @@ export const CompletedPieChart: React.FC<{ completed: number }> = function ({
    completed,
 }) {
    const notCompleted = 1 - completed;
+   // TODO: replace this by theme colors
    const pieColors = ["#00b49fee", "#1111"];
    const pieData = [
       { name: "completed", value: completed },
@@ -36,8 +37,8 @@ export const CompletedPieChart: React.FC<{ completed: number }> = function ({
                   />
                ))}
                <Label
-                  value={`${Math.round(completed * 100)}%`}
                   position="center"
+                  value={`${Math.round(completed * 100)}%`}
                />
             </Pie>
          </PieChart>

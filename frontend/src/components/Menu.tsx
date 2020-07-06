@@ -40,9 +40,10 @@ export const Menu: React.FC = function () {
             open={Boolean(anchorEl)}
             onClose={handleClose}
          >
-            <MenuItem onClick={handleClose}>Dark Mode</MenuItem>
+            <MenuItem onClick={handleClose}>Stuff</MenuItem>
+            <MenuItem onClick={handleClose}>More Stuff</MenuItem>
             <MenuItem onClick={handleClose}>Legal Stuff</MenuItem>
-            <MenuItem onClick={handleClose}>Help</MenuItem>
+            <MenuItem onClick={handleClose}>Support</MenuItem>
          </MaterialMenu>
       </div>
    );

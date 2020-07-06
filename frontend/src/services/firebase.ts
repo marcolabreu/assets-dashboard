@@ -15,8 +15,6 @@ const config = {
 initializeApp(config);
 export const db = database();
 
-console.log(db);
-
 export interface IReportsByDate {
    [date: string]: {
       [uid: string]: {
