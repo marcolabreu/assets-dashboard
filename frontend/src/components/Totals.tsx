@@ -50,7 +50,8 @@ export const Totals: React.FC = function () {
 
          reports_by_date
             .orderByValue()
-            .limitToLast(7)
+            // TODO: Make the limit responsive to screen width
+            .limitToLast(8)
             .on("value", function (dataSnapshot) {
                const data: IReportsByDate = dataSnapshot.val();
 

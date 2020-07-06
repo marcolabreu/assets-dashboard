@@ -2,7 +2,7 @@ import React from "react";
 import { Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { FundsList } from "./components/FundsList";
+import { FundsTree } from "./components/FundsTree";
 import { Menu } from "./components/Menu";
 import { Totals } from "./components/Totals";
 
@@ -44,7 +44,7 @@ export const App = function App(): JSX.Element {
          </header>
          <Container className={styles.contentContainer}>
             <Totals />
-            <FundsList />
+            <FundsTree />
          </Container>
       </>
    );
