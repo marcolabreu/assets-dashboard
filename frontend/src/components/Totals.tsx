@@ -1,9 +1,9 @@
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useEffect, useState } from "react";
-import { Cell, Label, Pie, PieChart, ResponsiveContainer } from "recharts";
 
 import { db, IReportsByDate } from "../services/firebase";
 import { localDateFromKey } from "../helpers/localDateFromKey";
+import { CompletedPieChart } from "./Charts/CompletedPieChart";
 
 const styles = makeStyles({
    container: {
@@ -73,43 +73,12 @@ export const Totals: React.FC = function () {
       void observeLastDayReports();
    }, []);
 
-   const notCompleted = 1 - completed;
-   const pieColors = ["#00b49fee", "#1111"];
-   const pieData = [
-      { name: "completed", value: completed },
-      { name: "not completed", value: notCompleted },
-   ];
-
    return (
       <div className={classes.container}>
-         <ResponsiveContainer width="95%" height={200}>
-            <PieChart>
-               <Pie
-                  data={pieData}
-                  dataKey="value"
-                  animationEasing="ease-in-out"
-                  fill={pieColors[0]}
-                  innerRadius="60%"
-                  paddingAngle={1}
-                  startAngle={90}
-                  endAngle={-360}
-               >
-                  {pieData.map((entry, index) => (
-                     <Cell
-                        key={`cell-${index}`}
-                        fill={pieColors[index % pieColors.length]}
-                     />
-                  ))}
-                  <Label
-                     value={`${Math.round(completed * 100)}%`}
-                     position="center"
-                  />
-               </Pie>
-            </PieChart>
-         </ResponsiveContainer>
          <div>
             <h2>{date}</h2>
             <p>{alerts.toLocaleString()}</p>
+            <CompletedPieChart completed={completed} />
          </div>
       </div>
    );
