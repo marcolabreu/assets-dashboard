@@ -6,10 +6,11 @@ import { FundsList } from "./components/FundsList";
 import { Menu } from "./components/Menu";
 import { Totals } from "./components/Totals";
 
-const styles = makeStyles({
-   container: {
+const useStyles = makeStyles({
+   contentContainer: {
       display: "flex",
       flexDirection: "column",
+      maxWidth: "800px",
    },
 
    header: {
@@ -22,28 +23,29 @@ const styles = makeStyles({
    },
 
    headerContainer: {
+      alignContent: "center",
       display: "flex",
       flexDirection: "row",
       justifyContent: "space-between",
-      alignContent: "center",
+      maxWidth: "1000px",
    },
 });
 
 export const App = function App(): JSX.Element {
-   const classes = styles();
+   const styles = useStyles();
 
    return (
-      <div>
-         <header className={classes.header}>
-            <Container className={classes.headerContainer}>
+      <>
+         <header className={styles.header}>
+            <Container className={styles.headerContainer}>
                <h1>Dashboard</h1>
                <Menu />
             </Container>
          </header>
-         <Container className={classes.container}>
+         <Container className={styles.contentContainer}>
             <Totals />
             <FundsList />
          </Container>
-      </div>
+      </>
    );
 };

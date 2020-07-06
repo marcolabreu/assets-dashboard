@@ -17,16 +17,12 @@ export const AlertsBarChart: React.FC<{ totals: ITotals[] }> = function ({
       return {
          alerts: dayTotal.alertsTotal,
          completed: dayTotal.completedReports / dayTotal.reportsCount,
+         day: dayTotal.day,
       };
    });
    return (
       <>
-         <ResponsiveContainer
-            width="100%"
-            height={200}
-            minWidth={240}
-            minHeight={160}
-         >
+         <ResponsiveContainer height={200} minWidth={200} minHeight={160}>
             <BarChart
                data={chartData}
                margin={{ top: 25, right: 0, left: 0, bottom: 15 }}
@@ -34,13 +30,18 @@ export const AlertsBarChart: React.FC<{ totals: ITotals[] }> = function ({
                <Bar
                   dataKey="alerts"
                   name="alerts per day"
+                  // FIXME: animation disables LabelList; a bug maybe?
                   isAnimationActive={false}
                   fill="#ffc658"
                >
                   <LabelList dataKey="alerts" position="top" />
                </Bar>
                <XAxis dataKey="day">
-                  <Label value="alerts each day" />
+                  <Label
+                     value="alerts on last days"
+                     position="bottom"
+                     offset={-3}
+                  />
                </XAxis>
             </BarChart>
          </ResponsiveContainer>

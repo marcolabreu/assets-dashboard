@@ -1,9 +1,10 @@
 import React from "react";
 import { Cell, Label, Pie, PieChart, ResponsiveContainer } from "recharts";
 
-export const CompletedPieChart: React.FC<{ completed: number }> = function ({
-   completed,
-}) {
+export const CompletedPieChart: React.FC<{
+   completed: number;
+   percentageStyle: string;
+}> = function ({ completed, percentageStyle }) {
    const notCompleted = 1 - completed;
    // TODO: replace this by theme colors
    const pieColors = ["#00b49fee", "#1111"];
@@ -13,12 +14,7 @@ export const CompletedPieChart: React.FC<{ completed: number }> = function ({
    ];
 
    return (
-      <ResponsiveContainer
-         width="100%"
-         height={200}
-         minWidth={160}
-         minHeight={160}
-      >
+      <ResponsiveContainer minWidth={160}>
          <PieChart>
             <Pie
                data={pieData}
@@ -37,6 +33,7 @@ export const CompletedPieChart: React.FC<{ completed: number }> = function ({
                   />
                ))}
                <Label
+                  className={percentageStyle}
                   position="center"
                   value={`${Math.round(completed * 100)}%`}
                />

@@ -1,4 +1,5 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { useMediaQuery } from "@material-ui/core";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import React, { useEffect, useState } from "react";
 
 import { db, IReportsByDate } from "../services/firebase";
@@ -10,20 +11,38 @@ export interface ITotals {
    alertsTotal: number;
    completedReports: number;
    reportsCount: number;
+   day: number;
 }
 
-const styles = makeStyles({
-   container: {
+export const useStyles = makeStyles({
+   alerts: {
+      color: "red",
+      fontSize: "xx-large",
+      fontWeight: "bold",
+   },
+   column: {
+      display: "flex",
+      flexDirection: "column",
+      justifyItems: "center",
+   },
+   row: {
       display: "flex",
       flexDirection: "row",
-      justifyItems: "center",
+      justifyItems: "space-between",
+   },
+   xLarge: {
+      //FIXME: color not applied to Recharts Label component
+      color: "grey",
+      fontSize: "x-large",
    },
 });
 
 export const Totals: React.FC = function () {
    const [totals, setTotals] = useState<Array<ITotals>>([]);
    const [date, setDate] = useState("Reports date");
-   const classes = styles();
+   const styles = useStyles();
+   const theme = useTheme();
+   const mobile = useMediaQuery(theme.breakpoints.down("xs"));
 
    useEffect(() => {
       function observeLastDayReports() {
@@ -42,8 +61,15 @@ export const Totals: React.FC = function () {
 
                const reportsTotals: ITotals[] = [];
 
-               Object.values(data).forEach(function (dateEntry) {
-                  const reduced = Object.values(dateEntry).reduce<ITotals>(
+               Object.values(data).forEach(function (dateEntry, index) {
+                  const day = Number(dateKeys[index].substr(6, 2));
+
+                  const reduced = Object.values(dateEntry).reduce<
+                     Pick<
+                        ITotals,
+                        "alertsTotal" | "completedReports" | "reportsCount"
+                     >
+                  >(
                      function (acc, shareClassEntry) {
                         const { nb_alerts, report_status } = shareClassEntry;
 
@@ -64,8 +90,8 @@ export const Totals: React.FC = function () {
                         reportsCount: 0,
                      }
                   );
-                  console.log(reduced);
-                  reportsTotals.push(reduced);
+
+                  reportsTotals.push({ ...reduced, day });
                });
 
                setTotals(reportsTotals);
@@ -76,18 +102,27 @@ export const Totals: React.FC = function () {
       void observeLastDayReports();
    }, []);
 
-   const lastDayCompleted =
+   const completedOnLastAvailableDate =
       totals.length === 0
          ? 0
          : totals[totals.length - 1].completedReports /
            totals[totals.length - 1].reportsCount;
 
+   const alertsOnLastAvailableDate =
+      totals.length === 0 ? 0 : totals[totals.length - 1].alertsTotal;
+
    return (
-      <div className={classes.container}>
-         <div>
-            <h2>{date}</h2>
+      <div className={mobile ? styles.column : styles.row}>
+         <div className={styles.row}>
+            <div>
+               <p className={styles.xLarge}>{date}</p>
+               <p className={styles.alerts}>{alertsOnLastAvailableDate}</p>
+            </div>
+            <CompletedPieChart
+               completed={completedOnLastAvailableDate}
+               percentageStyle={styles.xLarge}
+            />
          </div>
-         <CompletedPieChart completed={lastDayCompleted} />
          <AlertsBarChart totals={totals} />
       </div>
    );

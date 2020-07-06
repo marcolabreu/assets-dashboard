@@ -2,7 +2,7 @@ import React, { MouseEvent, useState } from "react";
 import Button from "@material-ui/core/Button";
 import { Menu as MaterialMenu, MenuItem, makeStyles } from "@material-ui/core";
 
-const styles = makeStyles({
+const useStyles = makeStyles({
    div: {
       alignSelf: "center",
    },
@@ -13,7 +13,7 @@ const styles = makeStyles({
 
 export const Menu: React.FC = function () {
    const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-   const classes = styles();
+   const styles = useStyles();
 
    const handleClick = (event: MouseEvent<HTMLElement>) => {
       setAnchorEl(event.currentTarget);
@@ -24,9 +24,9 @@ export const Menu: React.FC = function () {
    };
 
    return (
-      <div className={classes.div}>
+      <div className={styles.div}>
          <Button
-            className={classes.menuButton}
+            className={styles.menuButton}
             aria-controls="menu"
             aria-haspopup="true"
             onClick={handleClick}

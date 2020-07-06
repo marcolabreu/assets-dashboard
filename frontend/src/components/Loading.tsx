@@ -1,7 +1,8 @@
 import React from "react";
-import { CircularProgress, Container, makeStyles } from "@material-ui/core";
+import { CircularProgress, Container } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
-const styles = makeStyles({
+const useStyles = makeStyles({
    container: {
       display: "flex",
       flexDirection: "column",
@@ -12,9 +13,9 @@ const styles = makeStyles({
 });
 
 export const Loading: React.FC = function () {
-   const classes = styles();
+   const styles = useStyles();
    return (
-      <Container className={classes.container}>
+      <Container className={styles.container}>
          <CircularProgress />
       </Container>
    );
