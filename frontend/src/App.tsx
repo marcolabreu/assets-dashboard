@@ -1,8 +1,8 @@
 import React from "react";
-import { Container } from "@material-ui/core";
+import { CssBaseline, Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { FundsTree } from "./components/FundsTree";
+import { Funds } from "./components/Funds";
 import { Menu } from "./components/Menu";
 import { Totals } from "./components/Totals";
 
@@ -10,7 +10,6 @@ const useStyles = makeStyles({
    contentContainer: {
       display: "flex",
       flexDirection: "column",
-      maxWidth: "800px",
    },
 
    header: {
@@ -27,7 +26,6 @@ const useStyles = makeStyles({
       display: "flex",
       flexDirection: "row",
       justifyContent: "space-between",
-      maxWidth: "1000px",
    },
 });
 
@@ -36,15 +34,16 @@ export const App = function App(): JSX.Element {
 
    return (
       <>
+         <CssBaseline />
          <header className={styles.header}>
-            <Container className={styles.headerContainer}>
+            <Container className={styles.headerContainer} maxWidth="md">
                <h1>Dashboard</h1>
                <Menu />
             </Container>
          </header>
-         <Container className={styles.contentContainer}>
+         <Container className={styles.contentContainer} maxWidth="md">
             <Totals />
-            <FundsTree />
+            <Funds />
          </Container>
       </>
    );
