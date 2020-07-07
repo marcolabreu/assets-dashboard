@@ -5,16 +5,25 @@ import {
    Divider,
    List,
    ListItem,
+   ListItemIcon,
    ListItemText,
    Theme,
 } from "@material-ui/core";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import { ChevronRight, ExpandMore } from "@material-ui/icons";
+import { ChevronLeft, Done, ExpandMore } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme: Theme) =>
    createStyles({
       alert: {
-         color: "red",
+         color: theme.palette.error.main,
+         fontSize: "large",
+         fontWeight: "bold",
+         paddingRight: theme.spacing(2),
+      },
+      allGood: {
+         color: "#00b49fee",
+         fontSize: "large",
+         paddingRight: theme.spacing(2),
       },
       shareClasses: {
          paddingLeft: theme.spacing(12),
@@ -25,16 +34,42 @@ const useStyles = makeStyles((theme: Theme) =>
    })
 );
 
-export const SubFundListItem: React.FC<{
-   subfund_id: string;
+const AlertAndReportStatus: React.FC<{
+   alerts: number | undefined;
+   report_status: boolean | undefined;
+}> = function ({ alerts, report_status }) {
+   const styles = useStyles();
+
+   return (
+      <>
+         {report_status && (
+            <ListItemIcon className={styles.allGood}>
+               <Done color="inherit" />
+            </ListItemIcon>
+         )}
+
+         <span className={alerts === 0 ? styles.allGood : styles.alert}>
+            {alerts}
+         </span>
+      </>
+   );
+};
+
+// TODO: refactor these two components: recursive maybe?
+const SubFundListItem: React.FC<{
+   alerts: number | undefined;
    name: string;
+   report_status: boolean | undefined;
+
    share_classes: {
       [share_class_id_id: string]: {
+         alerts: number | undefined;
          name: string;
+         report_status: boolean | undefined;
          uid: string;
       };
    };
-}> = function ({ subfund_id, name, share_classes }) {
+}> = function ({ alerts, name, report_status, share_classes }) {
    const [open, setOpen] = useState(false);
    const styles = useStyles();
 
@@ -43,80 +78,108 @@ export const SubFundListItem: React.FC<{
    };
 
    return (
-      <Fragment key={subfund_id}>
+      <>
          <ListItem
             button
             className={styles.subFund}
             onClick={handleClick}
             aria-label={name}
          >
-            {open ? <ExpandMore /> : <ChevronRight />}
             <ListItemText primary={name} />
-            <span className={styles.alert}>0</span>
+
+            <AlertAndReportStatus
+               alerts={alerts}
+               report_status={report_status}
+            />
+
+            {open ? <ExpandMore /> : <ChevronLeft />}
          </ListItem>
+
          <Collapse in={open} timeout="auto" unmountOnExit>
             <List>
-               {Object.entries(share_classes).map(([subfund_id, { name }]) => {
-                  return (
-                     <>
-                        <ListItem
-                           button
-                           className={styles.shareClasses}
-                           key={subfund_id}
-                           aria-label={name}
-                        >
-                           <ListItemText primary={name} />
-                           <span className={styles.alert}>0</span>
-                        </ListItem>
-                        <Divider />
-                     </>
-                  );
-               })}
+               {Object.entries(share_classes).map(
+                  ([share_class_id_id, { alerts, name, report_status }]) => {
+                     return (
+                        <Fragment key={share_class_id_id}>
+                           <ListItem
+                              button
+                              className={styles.shareClasses}
+                              aria-label={name}
+                           >
+                              <ListItemText primary={name} />
+
+                              <AlertAndReportStatus
+                                 alerts={alerts}
+                                 report_status={report_status}
+                              />
+                           </ListItem>
+
+                           <Divider />
+                        </Fragment>
+                     );
+                  }
+               )}
             </List>
          </Collapse>
          {open ? null : <Divider />}
-      </Fragment>
+      </>
    );
 };
 
 export const FundListItem: React.FC<{
-   fund_id: string;
+   alerts: number | undefined;
    name: string;
+   report_status: boolean | undefined;
+
    subfunds: {
       [subfund_id: string]: {
+         alerts: number | undefined;
          name: string;
+         report_status: boolean | undefined;
+
          share_classes: {
             [share_class_id_id: string]: {
+               alerts: number | undefined;
                name: string;
+               report_status: boolean | undefined;
                uid: string;
             };
          };
       };
    };
-}> = function ({ fund_id, name, subfunds }) {
+}> = function ({ alerts, name, report_status, subfunds }) {
    const [open, setOpen] = useState(false);
-   const styles = useStyles();
 
    const handleClick = () => {
       setOpen(!open);
    };
 
    return (
-      <Fragment key={fund_id}>
+      <>
          <ListItem button onClick={handleClick} aria-label={name}>
-            {open ? <ExpandMore /> : <ChevronRight />}
             <ListItemText primary={name} />
-            <span className={styles.alert}>0</span>
+
+            <AlertAndReportStatus
+               alerts={alerts}
+               report_status={report_status}
+            />
+
+            {open ? <ExpandMore /> : <ChevronLeft />}
          </ListItem>
+
          <Collapse in={open} timeout="auto" unmountOnExit>
             <List>
                {Object.entries(subfunds).map(
-                  ([subfund_id, { name, share_classes }]) => {
+                  ([
+                     subfund_id,
+                     { alerts, name, report_status, share_classes },
+                  ]) => {
                      return (
                         <SubFundListItem
+                           alerts={alerts}
                            key={subfund_id}
-                           subfund_id={subfund_id}
                            name={name}
+                           report_status={report_status}
                            share_classes={share_classes}
                         />
                      );
@@ -124,7 +187,8 @@ export const FundListItem: React.FC<{
                )}
             </List>
          </Collapse>
+
          {open ? null : <Divider />}
-      </Fragment>
+      </>
    );
 };

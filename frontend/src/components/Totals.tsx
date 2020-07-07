@@ -2,7 +2,7 @@ import { useMediaQuery } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import React, { useEffect, useState } from "react";
 
-import { db, IReportsByDate } from "../services/firebase";
+import { db, IReportsByDateDb } from "../services/firebase";
 import { localDateFromKey } from "../helpers/localDateFromKey";
 import { AlertsBarChart } from "./Charts/AlertsBarChart";
 import { CompletedPieChart } from "./Charts/CompletedPieChart";
@@ -42,6 +42,7 @@ export const Totals: React.FC = function () {
    const [date, setDate] = useState("Reports date");
    const styles = useStyles();
    const theme = useTheme();
+
    const mobile = useMediaQuery(theme.breakpoints.down("xs"));
 
    useEffect(() => {
@@ -53,7 +54,7 @@ export const Totals: React.FC = function () {
             // TODO: Make the limit responsive to screen width
             .limitToLast(8)
             .on("value", function (dataSnapshot) {
-               const data: IReportsByDate = dataSnapshot.val();
+               const data: IReportsByDateDb = dataSnapshot.val();
 
                const dateKeys = Object.keys(data);
                const localLastDate = localDateFromKey(
@@ -101,6 +102,7 @@ export const Totals: React.FC = function () {
       }
 
       void observeLastDayReports();
+      // TODO: check if we need to cleanup this useEffect with a return
    }, []);
 
    const completedOnLastAvailableDate =

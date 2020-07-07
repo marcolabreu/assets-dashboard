@@ -15,7 +15,7 @@ const config = {
 initializeApp(config);
 export const db = database();
 
-export interface IReportsByDate {
+export interface IReportsByDateDb {
    [date: string]: {
       [uid: string]: {
          nb_alerts: number;
@@ -26,13 +26,21 @@ export interface IReportsByDate {
 
 export interface IFunds {
    [fund_id: string]: {
+      alerts: number | undefined;
       name: string;
+      report_status: boolean | undefined;
+
       subfunds: {
          [subfund_id: string]: {
+            alerts: number | undefined;
             name: string;
+            report_status: boolean | undefined;
+
             share_classes: {
                [share_class_id: string]: {
+                  alerts: number | undefined;
                   name: string;
+                  report_status: boolean | undefined;
                   uid: string;
                };
             };
