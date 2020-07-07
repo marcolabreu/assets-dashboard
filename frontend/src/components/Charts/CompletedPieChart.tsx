@@ -1,11 +1,19 @@
 import React from "react";
 import { Cell, Label, Pie, PieChart, ResponsiveContainer } from "recharts";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles({
+   large: {
+      fontSize: "x-large",
+   },
+});
 
 export const CompletedPieChart: React.FC<{
    completedCount: number;
    totalCount: number;
-   percentageStyle: string;
-}> = function ({ completedCount, totalCount, percentageStyle }) {
+}> = function ({ completedCount, totalCount }) {
+   const style = useStyles();
+
    const completedPercentage = completedCount / totalCount;
    const pendingPercentage = 1 - completedPercentage;
 
@@ -35,8 +43,9 @@ export const CompletedPieChart: React.FC<{
                      fill={pieColors[index % pieColors.length]}
                   />
                ))}
+
                <Label
-                  className={percentageStyle}
+                  className={style.large}
                   position="center"
                   value={completedCount ?? 0}
                />

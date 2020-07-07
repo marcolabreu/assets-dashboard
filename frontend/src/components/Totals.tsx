@@ -14,7 +14,7 @@ export interface ITotals {
    day: number;
 }
 
-export const useStyles = makeStyles({
+const useStyles = makeStyles({
    alerts: {
       color: "red",
       fontSize: "xx-large",
@@ -35,7 +35,6 @@ export const useStyles = makeStyles({
       justifyItems: "space-between",
    },
    xLarge: {
-      //FIXME: color not applied to Recharts Label component
       color: "grey",
       fontSize: "x-large",
    },
@@ -129,7 +128,6 @@ export const Totals: React.FC = function () {
                <CompletedPieChart
                   completedCount={completedCount}
                   totalCount={totalCount}
-                  percentageStyle={styles.xLarge}
                />
                <p className={styles.legend}>pending reports</p>
             </div>
