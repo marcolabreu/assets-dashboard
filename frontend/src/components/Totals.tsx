@@ -23,7 +23,11 @@ export const useStyles = makeStyles({
    column: {
       display: "flex",
       flexDirection: "column",
-      justifyItems: "center",
+      justifyItems: "start",
+   },
+   legend: {
+      marginTop: "0",
+      textAlign: "center",
    },
    row: {
       display: "flex",
@@ -105,11 +109,11 @@ export const Totals: React.FC = function () {
       // TODO: check if we need to cleanup this useEffect with a return
    }, []);
 
-   const completedOnLastAvailableDate =
-      totals.length === 0
-         ? 0
-         : totals[totals.length - 1].completedReports /
-           totals[totals.length - 1].reportsCount;
+   const totalCount =
+      totals.length === 0 ? 0 : totals[totals.length - 1].reportsCount;
+
+   const completedCount =
+      totals.length === 0 ? 0 : totals[totals.length - 1].completedReports;
 
    const alertsOnLastAvailableDate =
       totals.length === 0 ? 0 : totals[totals.length - 1].alertsTotal;
@@ -121,10 +125,14 @@ export const Totals: React.FC = function () {
                <p className={styles.xLarge}>{date}</p>
                <p className={styles.alerts}>{alertsOnLastAvailableDate}</p>
             </div>
-            <CompletedPieChart
-               completed={completedOnLastAvailableDate}
-               percentageStyle={styles.xLarge}
-            />
+            <div className={styles.column}>
+               <CompletedPieChart
+                  completedCount={completedCount}
+                  totalCount={totalCount}
+                  percentageStyle={styles.xLarge}
+               />
+               <p className={styles.legend}>pending reports</p>
+            </div>
          </div>
          <AlertsBarChart totals={totals} />
       </div>

@@ -26,10 +26,10 @@ const useStyles = makeStyles((theme: Theme) =>
          paddingRight: theme.spacing(2),
       },
       shareClasses: {
-         paddingLeft: theme.spacing(12),
+         paddingLeft: theme.spacing(8),
       },
       subFund: {
-         paddingLeft: theme.spacing(7),
+         paddingLeft: theme.spacing(4),
       },
    })
 );
