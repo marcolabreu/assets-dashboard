@@ -34,20 +34,6 @@
           }
         }
       }
-    },
-    "reports_by_uid": {
-      "$uid": {
-        ".indexOn": ".value",
-        "$date": {
-          ".indexOn": ".value",
-          "nb_alerts": {
-            ".validate": "newData.isNumber()"
-          },
-          "report_status": {
-            ".validate": "newData.isBoolean()"
-          }
-        }
-      }
     }
   }
 }
