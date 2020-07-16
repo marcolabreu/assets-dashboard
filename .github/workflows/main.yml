@@ -16,19 +16,14 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v2
 
-      - name: Fontend—Install, lint and build
+      - name: Fontend npm install
         run: |
           npm install
-          npm run lint
-          npm run build
         working-directory: frontend
 
-      - name: Replace firebase.json with CI version
-        run: mv firebase.ci.json firebase.json
-
-      - name: Deploy to Firebase
+      - name: Lint, build and deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
-          args: deploy --only hosting,functions
+          args: deploy --only database,hosting,functions
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
