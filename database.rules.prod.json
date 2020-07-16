@@ -3,6 +3,7 @@
     ".read": "true",
     ".write": "true",
     "funds": {
+      ".indexOn": ".value",
       "$fund_id": {
         ".indexOn": ".value",
         "subfunds": {
@@ -22,6 +23,7 @@
       }
     },
     "reports_by_date": {
+      ".indexOn": ".value",
       "$date": {
         ".indexOn": ".value",
         "$uid": {

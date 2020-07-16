@@ -1,6 +1,33 @@
 {
    "rules": {
       ".read": "true",
-      ".write": "true"
+      ".write": "true",
+      "funds": {
+         ".indexOn": ".value",
+         "$fund_id": {
+            ".indexOn": ".value",
+            "subfunds": {
+               ".indexOn": ".value",
+               "$subfund_id": {
+                  ".indexOn": ".value",
+                  "share_classes": {
+                     ".indexOn": ".value",
+                     "$share_class_id": {
+                        ".indexOn": [".value", "uid"]
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "reports_by_date": {
+         ".indexOn": ".value",
+         "$date": {
+            ".indexOn": ".value",
+            "$uid": {
+               ".indexOn": ".value"
+            }
+         }
+      }
    }
 }
