@@ -16,12 +16,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Enable cache
+      - name: Cache node modules
         uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
         with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
-        
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-${{ env.cache-name }}-
+            ${{ runner.os }}-npm-
+            ${{ runner.os }}-
+
       - name: Fontend npm install
         run: |
           npm install
